@@ -51,7 +51,7 @@ class Movie < ActiveRecord::Base
         rating = "NR"
         if !releases.nil?
           release_country = releases["countries"]
-          if !release_country.empty?
+          if !release_country.nil? #|| !release_country.empty?
             release_country.each do |rate|
               if rate["iso_3166_1"] == "US"
                 if !rate["certification"].empty? 
