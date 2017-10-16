@@ -1,6 +1,6 @@
 -# %h4 "#{@tmdb_movies}"
 -# %h4 "#{@tmdb_movies.class}"
-%h1 The following movies containing '#{@tmdb_movie_title}'' were found on TMDb
+%h1 The following movies containing '#{@tmdb_movie_title}' were found on TMDb
 - if @tmdb_movies.empty?
   %p No matching movies were found on TMDb
   = link_to "Return to Movie List", movies_path
