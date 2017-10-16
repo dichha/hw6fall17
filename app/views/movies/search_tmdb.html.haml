@@ -22,5 +22,5 @@
             %td= movie[':release_date']
             -# %td #{movie[':id']}
             %td= check_box_tag "tmdb_movies[#{movie[:id]}]", movie[':id'],nil, :id =>"checkbox_#{movie[':id']}"
-    = button_to "Add Selected Movies", movies_add_tmdb_path. :id => "movies_button"
+    = button_to "Add Selected Movies", movies_add_tmdb_path, :id => "movies_button"
   = link_to "Return to Movie List", movies_path
