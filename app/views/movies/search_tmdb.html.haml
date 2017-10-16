@@ -1,0 +1,26 @@
+-# %h4 "#{@tmdb_movies}"
+-# %h4 "#{@tmdb_movies.class}"
+%h1 The following movies containing '#{@tmdb_movie_title}'' were found on TMDb
+- if @tmdb_movies.empty?
+  %p No matching movies were found on TMDb
+  = link_to "Return to Movie List", movies_path
+-else
+  = form_tag movies_add_tmdb_path do
+    %table#movies
+      %thead
+        %tr
+          %th{:class => @title_header}= link_to 'Movie Title', movies_path(:sort => 'title', :ratings => @selected_ratings), :id => 'title_header'
+          %th Rating
+          %th{:class => @date_header}= link_to 'Release Date', movies_path(:sort => 'release_date', :ratings => @selected_ratings), :id => 'release_date_header'
+          -#%th id
+          %th select
+      %tbody
+        - @tmdb_movies.each do |movie|
+          %tr
+            %td= movie[':title']
+            %td= movie[':rating']
+            %td= movie[':release_date']
+            -# %td #{movie[':id']}
+            %td= check_box_tag "tmdb_movies[#{movie[:id]}]", movie[':id'],nil, :id =>"checkbox_#{movie[':id']}"
+    = button_to "Add Selected Movies", movies_add_tmdb_path. :id => "movies_button"
+  = link_to "Return to Movie List", movies_path
