@@ -18,7 +18,21 @@ describe MoviesController do
       fake_results = [double('Movie'), double('Movie')]
       allow(Movie).to receive(:find_in_tmdb).and_return (fake_results)
       post :search_tmdb, {:search_terms => 'Ted'}
-      expect(assigns(:movies)).to eq(fake_results)
+      expect(assigns(:tmdb_movies)).to eq(fake_results)
     end 
+    it 'should give an error message when search term is empty' do
+      post :search_tmdb, {:search_terms => ''}
+      expect(response).to redirect_to(movies_path)
+      expect(flash[:notice]).to be_present
+    end
+    
+    describe "adding from TMDb" do
+      it 'should call the model method that calls TMDb creation' do
+        fake_results = []
+        expect(Movie).to receive(:create_from_tmdb).with(100).and_return(fake_results)
+        post :add_tmdb, {:tmdb_movies => ['100']}
+      end
+    end
   end
+  
 end
