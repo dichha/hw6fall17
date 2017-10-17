@@ -1,4 +1,5 @@
 class Movie < ActiveRecord::Base
+  class Movie:: InvalidKeyError < StandardError; end
   def self.all_ratings
     %w(G PG PG-13 NC-17 R NR)
   end
@@ -59,10 +60,17 @@ class Movie < ActiveRecord::Base
   end
 
   def self.find_in_tmdb(keyword)
-    Tmdb::Api.key("f4702b08c0ac6ea5b51425788bb26562")
+    matching_movies =[]
+    begin
+      Tmdb::Api.key("f4702b08c0ac6ea5b51425788bb26562")
+      matching_movies = Tmdb::Movie.find(keyword)
+    rescue Tmdb::InvalidApiKeyError
+      raise Movie::InvalidKeyError, 'Invalid API key'
+    end
+   
     movies = []
-    matching_movies = Tmdb::Movie.find(keyword)
-    if !matching_movies.nil? || !matching_movies.empty?
+    #matching_movies = Tmdb::Movie.find(keyword)
+    if !matching_movies.nil? #|| !matching_movies.empty?
       matching_movies.each do |movie|
         rating = self.find_ratings(movie.id)
         # releases = Tmdb::Movie.releases(movie.id)
